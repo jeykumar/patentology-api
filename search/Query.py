@@ -32,6 +32,7 @@ class Query(object):
     def parse_payload(self):
         # Parse search strings
         payload = self.payload
+        
         keyword = payload.get('keyword')
         if keyword:
             self.search_strings['Any Text Field'] = [keyword]
@@ -141,64 +142,58 @@ class Query(object):
         parameter_segment = ''
         
         if parameter == 'Inventor Country': #INCOMPLETE!!
-            if value == 'Inventor Country Not Selected':
-                pass
-            else:
-                country_code = COUNTRIES.get(value)
-                parameter_segment += '({} <IN> INVTCOUNTRY)'.format(country_code)
+            country_code = value
+            parameter_segment += '({} <IN> INVTCOUNTRY)'.format(country_code)
             
         if parameter == 'Status':
-            if value == 'All':
+            if value == 'all':
                 pass
-            elif value == 'Active':
+            elif value == 'active':
                 parameter_segment += '(Active <IN> STATUS)'
-            elif value == 'Patents':
+            elif value == 'patents':
                 parameter_segment += '(Patents <IN> STATUS)'
-            elif value == 'Pending Applications':
+            elif value == 'pending-applications':
                 parameter_segment += '(Pending Applications <IN> STATUS)'
-            elif value == 'Public Domain':
+            elif value == 'public-domain':
                 parameter_segment += '(Public Domain <IN> STATUS)'
                 
         if parameter == 'Type':
-            if value == 'All Documents':
+            if value == 'all-documents':
                 pass
-            elif value == 'PCT':
+            elif value == 'pct':
                 parameter_segment += '(Y <IN> PCT)'
-            elif value == 'Non-PCT':
+            elif value == 'non-pct':
                 parameter_segment += '((<NOT> Y) <IN> PCT)'
         
         if parameter == 'Language':
-            if value == 'In Both Languages':
+            if value == 'both':
                 pass
-            elif value == 'English':
+            elif value == 'english':
                 parameter_segment += '(EN <IN> LANGUAGE)'
-            elif value == 'French':
+            elif value == 'french':
                 parameter_segment += '(FR <IN> LANGUAGE)'
 
         if parameter == 'License Availability':
-            if value == 'No':
+            if value == 'false':
                 pass
-            elif value == 'Yes':
+            elif value == 'true':
                 parameter_segment += '(Y <IN> LICENSE)'
                 
         if parameter == 'Date Search':
-            if value == 'Date Search Not Active':
-                pass
-            else:
-                date_start = self.parameters['Date Start']
-                date_end = self.parameters['Date End']
-                if value == 'Issue Date':
-                    parameter_segment += '(ISD>={}) <AND> (ISD<={})'.format(date_start, date_end)
-                elif value == 'Filing Date':
-                    parameter_segment += '(APD>={}) <AND> (APD<={})'.format(date_start, date_end)
-                elif value == 'Examination Request Date':
-                    parameter_segment += '(ERD>={}) <AND> (ERD<={})'.format(date_start, date_end)
-                elif value == 'Open To Pub. Insp. Date':
-                    parameter_segment += '(LOD>={}) <AND> (LOD<={})'.format(date_start, date_end)
-                elif value == 'Priority Date':
-                    parameter_segment += '(PAPD>={}) <AND> (PAPD<={})'.format(date_start, date_end)
-                elif value == 'National Entry Date':
-                    parameter_segment += '(NED>={}) <AND> (NED<={})'.format(date_start, date_end)
+            date_start = self.parameters['Date Start']
+            date_end = self.parameters['Date End']
+            if value == 'issue':
+                parameter_segment += '(ISD>={}) <AND> (ISD<={})'.format(date_start, date_end)
+            elif value == 'filing':
+                parameter_segment += '(APD>={}) <AND> (APD<={})'.format(date_start, date_end)
+            elif value == 'examination-request':
+                parameter_segment += '(ERD>={}) <AND> (ERD<={})'.format(date_start, date_end)
+            elif value == 'public-inspection':
+                parameter_segment += '(LOD>={}) <AND> (LOD<={})'.format(date_start, date_end)
+            elif value == 'priority':
+                parameter_segment += '(PAPD>={}) <AND> (PAPD<={})'.format(date_start, date_end)
+            elif value == 'national-entry':
+                parameter_segment += '(NED>={}) <AND> (NED<={})'.format(date_start, date_end)
         
         return parameter_segment
                 
@@ -224,9 +219,11 @@ class Query(object):
         for key in parameters_ordered:
             value = self.parameters[key]
             if value != None:
-                if search_string:
-                    search_string += " <AND> "
-                search_string += self.parse_parameter(key, value)
+                parameter_segment = self.parse_parameter(key, value)
+                if len(parameter_segment) > 0:
+                    if search_string:                        
+                        search_string += " <AND> "
+                    search_string += parameter_segment
                 
                 
         safe = '<>'

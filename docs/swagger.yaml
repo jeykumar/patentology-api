@@ -1,0 +1,419 @@
+swagger: '2.0'
+info:
+  title: Patentology API
+  description: Search CIPO's Canadian Patent Database.
+  version: "1.0.1"
+# the domain of the service
+host: www.patentology.org
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /search:
+    get:
+      summary: Search Results
+      description: The Search endpoint returns search results from the CIPO patent database. The response includes the count, and few key details to identify each patents. The patents are listed in the same order as retrieved from CIPO. While none of the parameters below are always required, at least one of parameters must be provided for each query.
+      parameters:
+        - name: keyword
+          in: query
+          description: Term in any of the following fields&#58; title, abstract, claims, inventor, owner, applicant, ipc, cpc, pct, ipn.
+          required: false
+          type: string
+        - name: title
+          in: query
+          description: Word or phrase in title.
+          required: false
+          type: string
+        - name: abstract
+          in: query
+          description: Word or phrase in abstract.
+          required: false
+          type: string
+        - name: claims
+          in: query
+          description: Word or phrase in claims.
+          required: false
+          type: string
+        - name: inventor
+          in: query
+          description: Word or phrase in name(s) of inventor(s).
+          required: false
+          type: string
+        - name: owner
+          in: query
+          description: Word or phrase in name(s) of owner(s).
+          required: false
+          type: string
+        - name: applicant
+          in: query
+          description: Word or phrase in name(s) of applicant(s).
+          required: false
+          type: string
+        - name: ipc
+          in: query
+          description: Search by classification(s) or a portion of a classification corresponding to the International Patent Classification (IPC).
+          required: false
+          type: string
+        - name: cpc
+          in: query
+          description: Search by classification(s) or a portion of a classification corresponding to the Canadian Patent Classification (IPC).
+          required: false
+          type: string
+        - name: pct
+          in: query
+          description: Search by PCT Filing Number assigned by the World Intellectual Property Organization (WIPO).
+          required: false
+          type: string
+        - name: ipn
+          in: query
+          description: Search by the International Publication Number assigned by the World Intellectual Property Organization (WIPO).
+          required: false
+          type: string
+        - name: country
+          in: query
+          description: Inventor country code.
+          required: false
+          type: string
+          enum:
+            - AD
+            - AE
+            - AF
+            - AG
+            - AI
+            - AL
+            - AM
+            - AN
+            - AO
+            - AP
+            - AR
+            - AT
+            - AU
+            - AW
+            - AZ
+            - BA
+            - BB
+            - BD
+            - BE
+            - BG
+            - BH
+            - BI
+            - BJ
+            - BM
+            - BN
+            - BO
+            - BQ
+            - BR
+            - BS
+            - BT
+            - BU
+            - BV
+            - BW
+            - BX
+            - BY
+            - BZ
+            - CA
+            - CD
+            - CF
+            - CG
+            - CH
+            - CI
+            - CK
+            - CL
+            - CM
+            - CN
+            - CO
+            - CR
+            - CS
+            - CU
+            - CV
+            - CY
+            - CZ
+            - DD
+            - DE
+            - DJ
+            - DK
+            - DM
+            - DO
+            - DZ
+            - EA
+            - EC
+            - EE
+            - EG
+            - EH
+            - EM
+            - EP
+            - ER
+            - ES
+            - ET
+            - FI
+            - FJ
+            - FK
+            - FO
+            - FR
+            - GA
+            - GB
+            - GC
+            - GD
+            - GE
+            - GG
+            - GH
+            - GI
+            - GL
+            - GM
+            - GN
+            - GQ
+            - GR
+            - GS
+            - GT
+            - GW
+            - GY
+            - HK
+            - HN
+            - HR
+            - HT
+            - HU
+            - HV
+            - IB
+            - ID
+            - IE
+            - IL
+            - IM
+            - IN
+            - IQ
+            - IR
+            - IS
+            - IT
+            - JE
+            - JM
+            - JO
+            - JP
+            - KE
+            - KG
+            - KH
+            - KI
+            - KM
+            - KN
+            - KP
+            - KR
+            - KW
+            - KY
+            - KZ
+            - LA
+            - LB
+            - LC
+            - LI
+            - LK
+            - LR
+            - LS
+            - LT
+            - LU
+            - LV
+            - LY
+            - MA
+            - MC
+            - MD
+            - ME
+            - MG
+            - MH
+            - MK
+            - ML
+            - MM
+            - MN
+            - MO
+            - MP
+            - MR
+            - MS
+            - MT
+            - MU
+            - MV
+            - MW
+            - MX
+            - MY
+            - MZ
+            - NA
+            - NC
+            - NE
+            - NG
+            - NI
+            - NL
+            - NO
+            - NP
+            - NR
+            - NZ
+            - OA
+            - OM
+            - PA
+            - PE
+            - PG
+            - PH
+            - PK
+            - PL
+            - PT
+            - PW
+            - PY
+            - QA
+            - QZ
+            - RO
+            - RS
+            - RU
+            - RW
+            - S1
+            - SA
+            - SB
+            - SC
+            - SD
+            - SE
+            - SG
+            - SH
+            - SI
+            - SK
+            - SL
+            - SM
+            - SN
+            - SO
+            - SR
+            - SS
+            - ST
+            - SU
+            - SV
+            - SY
+            - SZ
+            - TC
+            - TD
+            - TG
+            - TH
+            - TJ
+            - TL
+            - TM
+            - TN
+            - TO
+            - TR
+            - TT
+            - TV
+            - TW
+            - TZ
+            - UA
+            - UG
+            - US
+            - UY
+            - UZ
+            - VA
+            - VC
+            - VE
+            - VG
+            - VN
+            - VU
+            - WO
+            - WS
+            - XN
+            - YD
+            - YE
+            - YU
+            - ZA
+            - ZM
+            - ZR
+            - ZW
+            - ZZ
+        - name: status
+          in: query
+          description: Status of patent document.
+          required: false
+          type: string
+          enum:
+            - all
+            - active
+            - patents
+            - pending-applications
+            - public-domain
+        - name: type
+          in: query
+          description: Type of patent document filing.
+          required: false
+          type: string
+          enum:
+            - all-documents
+            - pct
+            - non-pct
+        - name: language
+          in: query
+          description: Language of filing.
+          required: false
+          type: string
+          enum:
+            - both
+            - english
+            - french
+        - name: licence-filter
+          in: query
+          description: Only find patents with licence availability if true. If false, results will not be filtered.
+          required: false
+          type: boolean
+        - name: date-field
+          in: query
+          description: Date field to search for, if any.
+          required: false
+          type: string
+          enum:
+            - issue
+            - filing
+            - examination-request
+            - public-inspection
+            - priority
+            - national-entry
+        - name: date-start
+          in: query
+          description: Starting date of range. Must be formatted as "yyyy-mm-dd". Required if date-field is anything else than either 'Date search not active' or empty.
+          required: false
+          type: string
+        - name: date-end
+          in: query
+          description: Ending date of range. Must be formatted as "yyyy-mm-dd". Required if date-field is anything else than either 'Date search not active' or empty.
+          required: false
+          type: string
+
+      responses:
+        200:
+          description: Search results
+          schema:
+            $ref: '#/definitions/Results'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  Results:
+    type: object
+    properties:
+      count:
+        type: string
+        description: Number of results found.
+      limit_exceeded:
+        type: string
+        description: If this is true, then the returned search results are incomplete. CIPO enforces a display limit of 1000 search results. Try altering the search parameters to keep the number of results under this limit.
+      patents:
+        type: array
+        items:
+          $ref: '#/definitions/PatentResult'
+  PatentResult:
+    type: object
+    properties:
+      number:
+        type: string
+        description: Patent number.
+      title:
+        type: string
+        description: Patent title.
+      link:
+        type: string
+        description: URL of the CIPO patent summary page.
+  Error:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Error.

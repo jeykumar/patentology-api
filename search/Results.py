@@ -12,6 +12,9 @@ class Results(object):
         self.limit_exceeded = False
         self.patents = []
     def get_html(self):
+        html = urlopen(self.url).read()
+        return html
+        """
         try:
             headers = {'User-Agent': 'Patentology'}
             request = requests.get(self.url, headers=headers)
@@ -22,6 +25,7 @@ class Results(object):
                 raise IOError
         except:
             raise IOError
+        """
     def parse(self):
         html = self.get_html()
         soup = BeautifulSoup(html, 'lxml')
