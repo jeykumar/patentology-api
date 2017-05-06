@@ -1,26 +1,38 @@
 swagger: '2.0'
 info:
   title: Patentology API
-  description: Search CIPO's Canadian Patent Database.
-  version: "1.0.1"
-# the domain of the service
+  description: This is an unofficial API for the Canadian patent database maintained by the Canadian Intellectual Property Office (CIPO).
+  version: 1.1.0
+  contact: {}
 host: www.patentology.org
-# array of all schemes that your API supports
 schemes:
   - http
-# will be prefixed to all paths
-basePath: /v1
+basePath: /api/v1
 produces:
   - application/json
+tags:
+  - name: "patent"
+externalDocs:
+  description: "Code hosted on GitHub"
+  url: "https://github.com/jeykumar/patentology-api"
 paths:
   /search:
     get:
-      summary: Search Results
-      description: The Search endpoint returns search results from the CIPO patent database. The response includes the count, and few key details to identify each patents. The patents are listed in the same order as retrieved from CIPO. While none of the parameters below are always required, at least one of parameters must be provided for each query.
+      tags:
+        - "patent"
+      summary: Search results
+      description: >-
+        The Search endpoint returns search results from the CIPO patent
+        database. The response includes the count, and few key details to
+        identify each patents. The patents are listed in the same order as
+        retrieved from CIPO. While none of the parameters below are always
+        required, at least one of parameters must be provided for each query.
       parameters:
         - name: keyword
           in: query
-          description: Term in any of the following fields&#58; title, abstract, claims, inventor, owner, applicant, ipc, cpc, pct, ipn.
+          description: >-
+            Term in any of the following fields&#58; title, abstract, claims,
+            inventor, owner, applicant, ipc, cpc, pct, ipn.
           required: false
           type: string
         - name: title
@@ -55,22 +67,30 @@ paths:
           type: string
         - name: ipc
           in: query
-          description: Search by classification(s) or a portion of a classification corresponding to the International Patent Classification (IPC).
+          description: >-
+            Search by classification(s) or a portion of a classification
+            corresponding to the International Patent Classification (IPC).
           required: false
           type: string
         - name: cpc
           in: query
-          description: Search by classification(s) or a portion of a classification corresponding to the Canadian Patent Classification (IPC).
+          description: >-
+            Search by classification(s) or a portion of a classification
+            corresponding to the Canadian Patent Classification (IPC).
           required: false
           type: string
         - name: pct
           in: query
-          description: Search by PCT Filing Number assigned by the World Intellectual Property Organization (WIPO).
+          description: >-
+            Search by PCT Filing Number assigned by the World Intellectual
+            Property Organization (WIPO).
           required: false
           type: string
         - name: ipn
           in: query
-          description: Search by the International Publication Number assigned by the World Intellectual Property Organization (WIPO).
+          description: >-
+            Search by the International Publication Number assigned by the World
+            Intellectual Property Organization (WIPO).
           required: false
           type: string
         - name: country
@@ -349,12 +369,14 @@ paths:
             - french
         - name: licence-filter
           in: query
-          description: Only find patents with licence availability if true. If false, results will not be filtered.
+          description: >-
+            Only find patents with licence availability if true. If false,
+            results will not be filtered.
           required: false
           type: boolean
         - name: date-field
           in: query
-          description: Date field to search for, if any.
+          description: 'Date field to search for, if any.'
           required: false
           type: string
           enum:
@@ -366,27 +388,52 @@ paths:
             - national-entry
         - name: date-start
           in: query
-          description: Starting date of range. Must be formatted as "yyyy-mm-dd". Required if date-field is anything else than either 'Date search not active' or empty.
+          description: >-
+            Starting date of range. Must be formatted as "yyyy-mm-dd". Required
+            if date-field is anything else than either 'Date search not active'
+            or empty.
           required: false
           type: string
         - name: date-end
           in: query
-          description: Ending date of range. Must be formatted as "yyyy-mm-dd". Required if date-field is anything else than either 'Date search not active' or empty.
+          description: >-
+            Ending date of range. Must be formatted as "yyyy-mm-dd". Required if
+            date-field is anything else than either 'Date search not active' or
+            empty.
           required: false
           type: string
-
       responses:
-        200:
-          description: Search results
+        '200':
+          description: Success
           schema:
-            $ref: '#/definitions/Results'
-        default:
-          description: Unexpected error
+            $ref: '#/definitions/SearchResults'
+  /info:
+    get:
+      tags:
+        - "patent"
+      summary: Patent information
+      description: >-
+        The Info endpoint returns patent-specific information from the CIPO
+        patent database. The response includes bibliographic data, abstract,
+        claims, and representative drawing. For patents with abstracts in
+        English and French, both versions are returned. Processing of data
+        gathered from CIPO is kept to a minimum and mostly returned as is,
+        therefore common issues like extra whitespace and unrecognizable
+        non-ASCII characters are to be expected.
+      parameters:
+        - name: id
+          in: query
+          required: false
+          type: string
+          description: Patent number.
+      operationId: ''
+      responses:
+        '200':
+          description: Success
           schema:
-            $ref: '#/definitions/Error'
-
+            $ref: '#/definitions/InfoResults'
 definitions:
-  Results:
+  SearchResults:
     type: object
     properties:
       count:
@@ -394,26 +441,97 @@ definitions:
         description: Number of results found.
       limit_exceeded:
         type: string
-        description: If this is true, then the returned search results are incomplete. CIPO enforces a display limit of 1000 search results. Try altering the search parameters to keep the number of results under this limit.
+        description: >-
+          If this is true, then the returned search results are incomplete. CIPO
+          enforces a display limit of 1000 search results. Try altering the
+          search parameters to keep the number of results under this limit.
       patents:
         type: array
         items:
-          $ref: '#/definitions/PatentResult'
-  PatentResult:
+          type: object
+          properties:
+            number:
+              type: string
+              description: Patent number.
+            title:
+              type: string
+              description: Patent title.
+            link:
+              type: string
+              description: URL of the CIPO patent summary page.
+  InfoResults:
     type: object
     properties:
-      number:
+      application:
         type: string
-        description: Patent number.
-      title:
+        description: Patent application number. For patents that were originally filed before October 1, 1989, the application number is different from the patent number. Otherwise, the numbers are the same.
+      titles:
+        type: object
+        description: Patent titles.
+        properties:
+          en:
+            type: string
+            description: English title.
+          fr:
+            type: string
+            description: French title.
+      bibliographic-data:
+        type: object
+        description: Bibliographic data.
+        properties:
+          ipc:
+            type: array
+            items:
+              type: string
+              description: International Patent Classification.
+          inventors:
+            type: array
+            items:
+              type: string
+              description: Names of inventors and their countries of origin.
+          owners:
+            type: array
+            items:
+              type: string
+              description: Names of owners and their countries of origin.
+          applicants:
+            type: array
+            items:
+              type: string
+              description: Names of applicants and their countries of origin.
+          agent:
+            type: string
+            description: Name of the patent agent or patent agent company that represented the owner in front of the Patent Office.
+          issued:
+            type: string
+            description: Date an application becomes a patent.
+          filing-date:
+            type: string
+            description: Date the patent application was filed. If it is PCT originating application, then it is the same date as the PCT filing date.
+          pub-date:
+            type: string
+            description: Date the patent application was made available to the public.
+          licence:
+            type: string
+            description: This field indicates whether the owner is willing to sell or license the rights to the patent. "N/A" means either no licence available or data not given.
+          language:
+            type: string
+            description: Language the document is available in (English/French).
+      abstracts:
+        type: array
+        description: Abstracts. The API attempts to separate the English and French versions, if applicable, into individual array elements. Some whitespace processing.
+        items:
+          type: string
+      claims:
         type: string
-        description: Patent title.
-      link:
+        description: Claims. Some whitespace processing.
+      drawing:
         type: string
-        description: URL of the CIPO patent summary page.
+        description: URL of the representative drawing image file.
   Error:
     type: object
     properties:
       name:
         type: string
         description: Error.
+security: []

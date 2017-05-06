@@ -1,3 +1,5 @@
+# SEARCH
+
 from urllib import quote_plus
 from constants import *
 
@@ -110,8 +112,6 @@ class Query(object):
         if date_end:
             self.parameters['Date End'] = date_end
 
-            
-        
     def parse_text_field(self, text_field, value):
         search_string_segment = ''
         if text_field == 'Any Text Field':
@@ -196,9 +196,8 @@ class Query(object):
                 parameter_segment += '(NED>={}) <AND> (NED<={})'.format(date_start, date_end)
         
         return parameter_segment
-                
-        
-    def url(self):
+                    
+    def generate_url(self):
         self.parse_payload()
         search_string = ''
         for key in FIELDS['TEXT_FIELDS']:
@@ -225,11 +224,10 @@ class Query(object):
                         search_string += " <AND> "
                     search_string += parameter_segment
                 
-                
         safe = '<>'
         base = 'http://www.ic.gc.ca/opic-cipo/cpd/eng/search/results.html?query='
         end = '&start=1&num=50&type=advanced_search&newSearch=0'
         
         mid = quote_plus(search_string, safe=safe)
-        q = base + mid + end
-        return q
+        url = base + mid + end
+        return url

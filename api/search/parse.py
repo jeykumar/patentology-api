@@ -1,31 +1,18 @@
+# SEARCH
+
 import lxml
-import requests
 from bs4 import BeautifulSoup
-from urllib import urlopen
 from urlparse import urlparse
 from urlparse import urljoin
+from api.common.scraper import Scraper
 
-class Results(object):
+class Parser(Scraper):
     def __init__(self, url):
         self.url = url
         self.count = None
         self.limit_exceeded = False
         self.patents = []
-    def get_html(self):
-        html = urlopen(self.url).read()
-        return html
-        """
-        try:
-            headers = {'User-Agent': 'Patentology'}
-            request = requests.get(self.url, headers=headers)
-            if request.status_code == 200:
-                html = request.content
-                return html
-            else:
-                raise IOError
-        except:
-            raise IOError
-        """
+        
     def parse(self):
         html = self.get_html()
         soup = BeautifulSoup(html, 'lxml')
@@ -70,7 +57,12 @@ class Results(object):
             # Compile data
             patent = [patent_num, patent_title, patent_url]
             self.patents.append(patent)
-    def results(self):
-        self.parse()
-        return (self.count, self.limit_exceeded, self.patents)
+        
+        # Create results dictionary
+        results = {'count':self.count, 'limit_exceeded':str(self.limit_exceeded), 'patents':[]}
+        for p in self.patents:
+            d = {'number':p[0], 'title':p[1], 'link':p[2]}
+            results['patents'].append(d)
+            
+        return results
 

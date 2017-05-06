@@ -4,14 +4,18 @@
 
 This library powers Patentology.org. The objective is to create an unofficial API for Canadian Intellectual Property Office's (CIPO) patent database. I hope this will facilitate the work of other developers and researchers.
 
-This **project is still under development**. While I am actively working on making it more stable, by identifying and fixing bugs, and adding additional features, it is **not recommended** to currently use this library for any sensitive work.
+**Disclaimer:** This API has no official status and there is no guarantee of accuracy or completeness.
 
-## Specification
+## Documentation
 
-Please refer to the interactive specification at [patentology.org](http://www.patentology.org/docs/index.html#/default) for now. It was created using the open source [Swagger](http://swagger.io/) framework. A more comprehensive version will soon be added to this page.
+Please refer to the interactive documentation at [patentology.org](http://www.patentology.org/docs/) for now. It was created using the open source [Swagger](http://swagger.io/) framework. A more comprehensive version will be added to this page at a later time.
 
-## API Paths
+## API Endpoints
 
 ### /search
 
-Use this endpoint to search the database for one or more patents using the specified search criteria.
+Use this endpoint to search for one or more patents using the specified search criteria.
+
+### /info
+
+Use this endpoint to retrieve information regarding a specific patent using the patent number.

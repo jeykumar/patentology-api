@@ -1,6 +1,7 @@
-class Call(object):
-    def __init__(self, request):
+class Request(object):
+    def __init__(self, request, endpoint=''):
         self.arguments = request
+        self.endpoint = endpoint
         self.payload = {}
     def parse(self):
         payload = {}
