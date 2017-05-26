@@ -8,7 +8,7 @@ This library powers Patentology.org. The objective is to create an unofficial AP
 
 ## Documentation
 
-Please refer to the interactive documentation at [patentology.org](http://www.patentology.org/docs/) for now. It was created using the open source [Swagger](http://swagger.io/) framework. A more comprehensive version will be added to this page at a later time.
+Please refer to the documentation at [patentology.org](http://www.patentology.org/docs/).
 
 ## API Endpoints
 
