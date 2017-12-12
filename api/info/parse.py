@@ -51,6 +51,8 @@ class Parser(Scraper):
                 # Process according to header
                 if header == 'intlClass':
                     bib_data['ipc'] = self.td_list(data)
+                elif header == 'canClass':
+                    bib_data['cpc'] = self.td_list(data)
                 elif header == 'inventors':
                     bib_data['inventors'] = self.td_list(data)
                 elif header == 'owners':
