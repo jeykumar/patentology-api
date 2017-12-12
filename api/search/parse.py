@@ -12,7 +12,7 @@ class Parser(Scraper):
         self.count = None
         self.limit_exceeded = False
         self.patents = []
-        
+    
     def parse(self):
         html = self.get_html()
         soup = BeautifulSoup(html, 'lxml')
@@ -20,12 +20,16 @@ class Parser(Scraper):
         
         # Check if there were any results
         div_results = soup.find('div', attrs={'class':'section'})
-        if not div_results: # If none found or some other error, then return empty result
-            self.count = "0"
+        if not div_results:
+            # If none found, then return empty result
+            self.count = '0'
             self.limit_exceeded = False
             self.patents = []
-            return
+            return {'count':self.count, 'limit_exceeded':str(self.limit_exceeded), 'patents':self.patents}
+            
+        
         header_info = div_results.find('div', attrs={'class':'align-center'})
+        
         # Get count
         string_with_count = header_info.find('strong') # Second strong tag contains results found string
         count = string_with_count.get_text().split()[0]

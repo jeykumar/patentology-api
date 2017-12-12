@@ -1,4 +1,4 @@
-# SEARCH
+# INFO
 
 class Query(object):    
     def __init__(self, payload={}):
