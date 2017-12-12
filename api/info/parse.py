@@ -93,8 +93,11 @@ class Parser(Scraper):
         return claims
     
     def parse_drawing(self, drawing_tab):
-        img_url_segment = drawing_tab.find('img').get('src')
-        drawing = urljoin(BASE_URL, img_url_segment)
+        if drawing_tab.find('img'):
+            img_url_segment = drawing_tab.find('img').get('src')
+            drawing = urljoin(BASE_URL, img_url_segment)
+        else:
+            drawing = ''
         return drawing   
     
     def parse(self):
