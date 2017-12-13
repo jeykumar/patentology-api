@@ -1,0 +1,439 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Endpoints &mdash; Patentology API 1.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Patentology API 1.2.0 documentation" href="index.html"/>
+        <link rel="next" title="Appendix" href="appendix.html"/>
+        <link rel="prev" title="Authentication" href="authentication.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Patentology API
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Endpoints</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#search">Search</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#query-parameters">Query Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#info">Info</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Query Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Appendix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Patentology API</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Endpoints</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/endpoints.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="endpoints">
+<h1>Endpoints<a class="headerlink" href="#endpoints" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="search">
+<h2>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h2>
+<p>This endpoint returns search results from the CIPO patent database for a given query. The response includes <code class="docutils literal"><span class="pre">count</span></code>, and a couple key details to identify each patent found.</p>
+<p>Always check <code class="docutils literal"><span class="pre">limit_exceeded</span></code> first because CIPO limits search results to 1,000 per query. The list of patents in the response is incomplete if <code class="docutils literal"><span class="pre">limit_exceeded</span></code> is <code class="docutils literal"><span class="pre">True</span></code>.
+The suggested workaround is to use <code class="docutils literal"><span class="pre">date-field</span></code>, <code class="docutils literal"><span class="pre">date-start</span></code>, and <code class="docutils literal"><span class="pre">date-end</span></code> to narrow the search scope. Repeated queries with consecutive date ranges may then be used to build the complete list of results.</p>
+<p>The patents are listed in the same order as retrieved from CIPO. While none of the parameters below are always required, at least one parameter must be provided for each query.</p>
+<dl class="docutils">
+<dt>Endpoint</dt>
+<dd>GET <a class="reference external" href="https://api.patentology.org/v1/search">https://api.patentology.org/v1/search</a></dd>
+</dl>
+<div class="section" id="query-parameters">
+<h3>Query Parameters<a class="headerlink" href="#query-parameters" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>keyword</td>
+<td>Term in any of the following fields: title, abstract, claims, inventor, owner, applicant, ipc, cpc, pct, ipn.</td>
+</tr>
+<tr class="row-odd"><td>title</td>
+<td>Word or phrase in title.</td>
+</tr>
+<tr class="row-even"><td>abstract</td>
+<td>Word or phrase in abstract.</td>
+</tr>
+<tr class="row-odd"><td>claims</td>
+<td>Word or phrase in claims.</td>
+</tr>
+<tr class="row-even"><td>inventor</td>
+<td>Word or phrase in name(s) of inventor(s).</td>
+</tr>
+<tr class="row-odd"><td>owner</td>
+<td>Word or phrase in name(s) of owner(s).</td>
+</tr>
+<tr class="row-even"><td>applicant</td>
+<td>Word or phrase in name(s) of applicant(s).</td>
+</tr>
+<tr class="row-odd"><td>ipc</td>
+<td>Search by classification(s) or a portion of a classification corresponding to the International Patent Classification (IPC).</td>
+</tr>
+<tr class="row-even"><td>cpc</td>
+<td>Search by classification(s) or a portion of a classification corresponding to the Canadian Patent Classification (IPC).</td>
+</tr>
+<tr class="row-odd"><td>pct</td>
+<td>Search by PCT Filing Number assigned by the World Intellectual Property Organization (WIPO).</td>
+</tr>
+<tr class="row-even"><td>ipn</td>
+<td>Search by the International Publication Number assigned by the World Intellectual Property Organization (WIPO).</td>
+</tr>
+<tr class="row-odd"><td>country</td>
+<td>Inventor country code. See Appendix for allowed values.</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>Status of patent document. See Appendix for allowed values.</td>
+</tr>
+<tr class="row-odd"><td>type</td>
+<td>Type of patent document filing. See Appendix for allowed values.</td>
+</tr>
+<tr class="row-even"><td>language</td>
+<td>Language of filing. See Appendix for allowed values.</td>
+</tr>
+<tr class="row-odd"><td>licence-filter</td>
+<td>Only find patents with licence availability. See Appendix for allowed values.</td>
+</tr>
+<tr class="row-even"><td>date-field</td>
+<td>Date field to search for, if any. See Appendix for allowed values.</td>
+</tr>
+<tr class="row-odd"><td>date-start</td>
+<td>Starting date of range. Must be formatted as “yyyy-mm-dd”. Required if date-field is anything else than either ‘Date search not active’ or empty.</td>
+</tr>
+<tr class="row-even"><td>date-end</td>
+<td>Ending date of range. Must be formatted as “yyyy-mm-dd”. Required if date-field is anything else than either ‘Date search not active’ or empty.</td>
+</tr>
+</tbody>
+</table>
+<p>Example Request:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;keyword&#39;</span><span class="p">:</span> <span class="s1">&#39;gesture&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;CA&#39;</span><span class="p">,</span> <span class="s1">&#39;date-field&#39;</span><span class="p">:</span> <span class="s1">&#39;issue&#39;</span><span class="p">,</span> <span class="s1">&#39;date-start&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;date-end&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-01-31&#39;</span><span class="p">}</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://api.patentology.org/v1/search&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Exampe Response:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;count&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;limit_exceeded&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;patents&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;http://www.ic.gc.ca/opic-cipo/cpd/eng/patent/2748881/summary.html&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="s2">&quot;2748881&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;GESTURE RECOGNITION METHOD AND INTERACTIVE INPUT SYSTEM EMPLOYING THE SAME&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;http://www.ic.gc.ca/opic-cipo/cpd/eng/patent/2896381/summary.html&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="s2">&quot;2896381&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;INTELLIGENT POSITIONING SYSTEM AND METHODS THEREFORE&quot;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="info">
+<h2>Info<a class="headerlink" href="#info" title="Permalink to this headline">¶</a></h2>
+<p>This endpoint returns patent-specific information from the CIPO patent database. The response includes the boolean <code class="docutils literal"><span class="pre">found</span></code>, and bibliographic data, abstract, claims, and representative drawing.</p>
+<p>For patents with abstracts in English and French, both versions are returned as a list.
+The Canadian Patent Classification, <code class="docutils literal"><span class="pre">cpc</span></code>, is returned only for older patents.</p>
+<p>Processing of data gathered from CIPO is kept to a minimum and mostly returned as is, therefore common issues like extra whitespace and unrecognizable non-ASCII characters are to be expected.</p>
+<dl class="docutils">
+<dt>Endpoint</dt>
+<dd>GET <a class="reference external" href="https://api.patentology.org/v1/info">https://api.patentology.org/v1/info</a></dd>
+</dl>
+<div class="section" id="id1">
+<h3>Query Parameters<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>id</td>
+<td>Patent number.</td>
+</tr>
+</tbody>
+</table>
+<p>Example Request:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;2894056&#39;</span><span class="p">}</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://api.patentology.org/v1/info&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Exampe Response:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;application&quot;</span><span class="p">:</span> <span class="s2">&quot;CA 2894056&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;titles&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;fr&quot;</span><span class="p">:</span> <span class="s2">&quot;APPAREIL ELECTRONIQUE PORTABLE, PROCEDE ET INTERFACE UTILISATEUR GRAPHIQUE ...&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;PORTABLE ELECTRONIC DEVICE, METHOD AND GRAPHICAL USER ITNERFACE FOR DISPLAYING ...&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;bibliographic-data&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;ipc&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;G06F 3/0488 (2013.01)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;G06F 3/0481 (2013.01)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;G06F 3/0484 (2013.01)&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;owners&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;APPLE INC. (United States of America)&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;filing-date&quot;</span><span class="p">:</span> <span class="s2">&quot;2007-09-05&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;English&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;pub-date&quot;</span><span class="p">:</span> <span class="s2">&quot;2008-03-13&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;issued&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;agent&quot;</span><span class="p">:</span> <span class="s2">&quot;RICHES, MCKENZIE &amp; HERBERT LLP&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;licence&quot;</span><span class="p">:</span> <span class="s2">&quot;N/A&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inventors&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;ORDING, BAS (United States of America)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;FORSTALL, SCOTT (United States of America)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CHRISTIE, GREG (United States of America)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;LEMAY, STEPHEN O. (United States of America)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CHAUDHRI, IMRAN (United States of America)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;WILLIAMSON, RICHARD (United States of America)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;BLUMENBERG, CHRIS (United States of America)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;VAN OS, MARCEL (United States of America)&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;applicants&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;APPLE INC. (United States of America)&quot;</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;claims&quot;</span><span class="p">:</span> <span class="s2">&quot;Note: Claims are shown in the official language in which they were submitted. The embodiments ...&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;found&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;abstracts&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;A computer-implemented method, for use in conjunction with a portable electronic device ...&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;drawing&quot;</span><span class="p">:</span> <span class="s2">&quot;http://www.ic.gc.ca/opic-cipo/cpd/page/2894056_20150028_page1_scale25_rotate0_objectnameA1001001A17B25A11931J94872.gif&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="appendix.html" class="btn btn-neutral float-right" title="Appendix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="authentication.html" class="btn btn-neutral" title="Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Jey Kumarasamy.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.2.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
