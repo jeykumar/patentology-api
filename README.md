@@ -8,7 +8,7 @@ This library powers Patentology.org. The objective is to create an unofficial AP
 
 ## Documentation
 
-Please refer to the documentation at [patentology.org](http://www.patentology.org/docs/).
+Please refer to the documentation at [patentology-api.readthedocs.io](http://patentology-api.readthedocs.io/).
 
 ## API Endpoints
 
