@@ -139,7 +139,7 @@ Exampe Response:
             ]
         },
         "claims": "Note: Claims are shown in the official language in which they were submitted. The embodiments ...",
-        "found": true,
+        "found": "True",
         "abstracts": [
             "A computer-implemented method, for use in conjunction with a portable electronic device ..."
         ],

@@ -114,7 +114,7 @@ class Parser(Scraper):
             results['found'] = 'False'
             return results
         else:
-            results['found'] = True
+            results['found'] = 'True'
         
         # Parse titles
         summary_table = soup.find('table', attrs={'id':'patentSummaryTable'})
