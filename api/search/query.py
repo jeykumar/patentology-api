@@ -141,7 +141,7 @@ class Query(object):
     def parse_parameter(self, parameter, value):
         parameter_segment = ''
         
-        if parameter == 'Inventor Country': #INCOMPLETE!!
+        if parameter == 'Inventor Country':
             country_code = value
             parameter_segment += '({} <IN> INVTCOUNTRY)'.format(country_code)
             
