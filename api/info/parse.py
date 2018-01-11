@@ -11,6 +11,8 @@ BASE_URL = 'http://www.ic.gc.ca/'
 class Parser(Scraper):
     def td_line(self, e):
         parts = []
+        if not e:
+            return u''
         for s in e.stripped_strings:
             parts.append(s)
         line = u' '.join(parts)
@@ -99,8 +101,8 @@ class Parser(Scraper):
             img_url_segment = drawing_tab.find('img').get('src')
             drawing = urljoin(BASE_URL, img_url_segment)
         else:
-            drawing = ''
-        return drawing   
+            drawing = u''
+        return drawing
     
     def parse(self):
         html = self.get_html()
